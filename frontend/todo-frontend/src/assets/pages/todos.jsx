@@ -100,6 +100,14 @@ export function TodoPage(){
                         token:localStorage.getItem("token")
                     }
                 })
+
+                const response=await axios.get("http://localhost:3000/todo/all",{
+             headers:{
+                    token:localStorage.getItem("token")
+                }
+            })
+            setTodos(response.data.todos);                
+
             }
             
         }
