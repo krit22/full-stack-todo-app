@@ -1,30 +1,45 @@
 import {useState,useEffect,useRef} from 'react'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-export function TodoPage(){
 
+
+export function TodoPage(){
+    const navigate=useNavigate();
     const input=useRef();   
     const [todos,setTodos]=useState([]);
 
-    useEffect(async function(){
-        const response=await axios.get("http://localhost:3000/todo/all",{
-            headers:{
-                token:localStorage.getItem("token")
-            }
-        })
+    useEffect(function(){
+        async function test() {
+             const response=await axios.get("http://localhost:3000/todo/all",{
+             headers:{
+                    token:localStorage.getItem("token")
+                }
+            })
         setTodos(response.data.todos);
+        }
+        test();
     },[])
 
     return <>
-        {/* {todos.map((m)=>{
-            console.log(m.title)
-        })} */}
+       
         <div><input type="text" placeholder="Add a todo here" onChange={(e)=>{
             input.current=e.target.value;
         }}></input></div>
         <AddTodoButton/>
+        <LogoutButton/>
         <div><Todos/></div>
     </>
+
+    function LogoutButton(){
+        return <>
+            <button onClick={()=>{
+                localStorage.setItem('token',"")
+                navigate("/auth")
+            }}>Logout</button>
+
+        </>
+    }
 
     function AddTodoButton(){
         return <>
@@ -62,14 +77,34 @@ export function TodoPage(){
     }
 
     function Todos(){
-        
         return <>
-            {todos.map((e,i)=>(<TodoComponnent key={i} title={e.title} id/>))}
-        
+            {todos.map((e,i)=>(<TodoComponnent key={i} title={e.title} _id={e._id} />))}
         </>
 
-        function TodoComponnent({title}){
-            return <div>{title}</div>
+        function TodoComponnent({title,_id}){
+            return <>
+                <div>
+                    <span>{title}</span>
+                    <span><DeleteButton id={_id} /></span>
+                </div>
+            </>
+
+            function DeleteButton({id}){
+                return <button onClick={deleteHandler}>Delete</button>
+            
+                async function deleteHandler(){
+                await axios.post('http://localhost:3000/todo/delete',{
+                    idToDelete:id
+                },{
+                    headers:{
+                        token:localStorage.getItem("token")
+                    }
+                })
+            }
+            
+        }
+
+            
         }
     }
 }
