@@ -1,0 +1,21 @@
+import { userModel } from "../../db/models/user.model.js";
+import jwt from 'jsonwebtoken'
+import dotenev from 'dotenv'
+dotenev.config({path:"./../.env"});
+
+
+export async function auth(req,res,next){
+    const token=req.headers.token;
+    const {id}=jwt.verify(token,process.env.JWT_SECRET)
+    const currentUser=await userModel.findById(id);
+
+    if(currentUser){
+        req.currentUserId=currentUser.id;
+        next();
+    }else{
+        res.json({
+            message:"Authentication failed"
+        })
+    }
+    next();
+}
