@@ -14,8 +14,7 @@ export async function auth(req,res,next){
         next();
     }else{
         res.json({
-            message:"Authentication failed"
+            message:"Could not add todo"
         })
     }
-    next();
 }

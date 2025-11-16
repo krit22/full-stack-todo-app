@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
 
 const TodoSchema=new mongoose.Schema({
-    id:String,
     title:String,
     description:String,
+    id:String,
     status:Number
 })
 
