@@ -24,16 +24,19 @@ export async function allTodoHandler(req,res){
 export async function addTodoHandler(req, res) {
   const { title, description } = req.body;
   try {
-    await TodoModel.create({
+    const newTodo=await TodoModel.create({
         title,
         description,
         status:0,
         id:req.currentUserId
     });
 
+
+
     console.log("added a new todo of the user",req.currentUserId)
     res.json({
       message: "Successfully added todo",
+      newTodoId:newTodo._id
     });
   } catch (e) {
     res.json({

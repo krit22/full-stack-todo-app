@@ -6,6 +6,7 @@ dotenev.config({path:"./../.env"});
 
 export async function auth(req,res,next){
     try{
+        console.log("authenticating a request...")
         const token=req.headers.token;
         const {id}=jwt.verify(token,process.env.JWT_SECRET)
         const currentUser=await userModel.findById(id);
