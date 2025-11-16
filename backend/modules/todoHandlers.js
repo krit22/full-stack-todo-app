@@ -2,13 +2,27 @@ import { TodoModel } from "../../db/models/todo.model.js";
 import mongoose from "mongoose";
 import { userModel } from "../../db/models/user.model.js";
 
-export function allTodoHandler(req,res){
-    
+export async function allTodoHandler(req,res){
+    const {currentUserId}=req;
+    try{
+      const todos=await TodoModel.find({
+        id:currentUserId
+      })
+      console.log("returned all todos of the user",currentUserId)
+      res.json({
+        message:"Found your todos",
+        todos
+      })
+    }catch(e){
+      res.json({
+        message:"An error occured finding todos",
+        error:e
+      })
+    }
 }
 
 export async function addTodoHandler(req, res) {
   const { title, description } = req.body;
-  console.log(res.currentUserId)
   try {
     await TodoModel.create({
         title,
@@ -17,6 +31,7 @@ export async function addTodoHandler(req, res) {
         id:req.currentUserId
     });
 
+    console.log("added a new todo of the user",req.currentUserId)
     res.json({
       message: "Successfully added todo",
     });
@@ -24,5 +39,21 @@ export async function addTodoHandler(req, res) {
     res.json({
       message: "Could not add todo",
     });
+  }
+}
+
+export async function deleteTodoHandler(req,res) {
+  const {idToDelete}=req.body;
+
+  try{
+    await TodoModel.findByIdAndDelete(idToDelete)
+    console.log("Successfully deleted the todo with id:",idToDelete)
+    res.json({
+      message:"Successfully deleted the todo"
+    })
+  }catch(e){
+    res.json({
+      message:"An error occured deleting the todo"
+    })
   }
 }
