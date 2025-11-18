@@ -1,7 +1,7 @@
 import {useState,useEffect,useRef} from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
-
+import './auth.css'
 
 export function Auth(){
     const [currentPage,setCurrentPage]=useState("register");
@@ -9,23 +9,32 @@ export function Auth(){
     const password=useRef();
     const navigate=useNavigate();
 
+    
+
     return <>
-        <div>{currentPage}</div>
-        <div><input type="text" placeholder="Username here" onChange={(e)=>{
+        <div className="container">
+            <div className="heading">{currentPage}</div>
+            <div><input className="inputBox" type="text" placeholder="Username here" onChange={(e)=>{
             username.current=e.target.value;
-        }} /></div>
-        <div><input type="text" placeholder="Password here" onChange={(e)=>{
+            }} /></div>
+
+            <div><input className="inputBox" type="text" placeholder="Password here" onChange={(e)=>{
             password.current=e.target.value;
-        }} /></div>
-        <div>{currentPage==="login"?<SigninButton/>:<SignupButton/>}</div>
-        <div>{currentPage==="login"?<SigninOption/>:<SignupOption/>}</div>
+            }} /></div>
+
+            <div>{currentPage==="login"?<SigninButton/>:<SignupButton/>}</div>
+            <div>{currentPage==="login"?<SigninOption/>:<SignupOption/>}</div>
+        </div>
+        
     </>
+
+
 
 
 
         function SignupButton(){
         return <>
-            <button onClick={signUpHandler}>Sign Up</button>
+            <button className="button" onClick={signUpHandler}>Sign Up</button>
         </>
 
         async function signUpHandler(){
@@ -41,7 +50,7 @@ export function Auth(){
 
     function SigninButton(){
         return <>
-            <button onClick={signinhandler}>Sign In</button>
+            <button className="button" onClick={signinhandler}>Sign In</button>
         </>
 
         async function signinhandler(req,res){
@@ -65,16 +74,20 @@ export function Auth(){
 
     function SigninOption(){
         return <>
-            Not Signed up? Sign up <button onClick={()=>{
-                setCurrentPage("signup")
-            }}>here</button>
+            <div className="lastDiv">
+                Not Signed up? Sign up <button className="button2" onClick={()=>{
+                    setCurrentPage("signup")
+                }}>here</button>
+            </div>
         </>
     }
     function SignupOption(){
         return <>
-            Already Signed up? Sign in <button onClick={()=>{
-                setCurrentPage("login")
-            }}>here</button>    
+            <div className="lastDiv">
+                Already Signed up? Sign in <button className="button2" onClick={()=>{
+                    setCurrentPage("login")
+                }}>here</button>    
+            </div>
         </>
     }
 }

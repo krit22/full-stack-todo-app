@@ -1,7 +1,7 @@
 import {useState,useEffect,useRef} from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import './todos.css'
 
 
 export function TodoPage(){
@@ -21,29 +21,49 @@ export function TodoPage(){
         test();
     },[])
 
+
     return <>
-       
-        <div><input type="text" placeholder="Add a todo here" onChange={(e)=>{
-            input.current=e.target.value;
-        }}></input></div>
-        <AddTodoButton/>
+
         <LogoutButton/>
-        <div><Todos/></div>
+        <div className='container1'>
+            <div className='heading'>Your todos</div>
+            <Todos/>
+            <div className='todo-container'>
+                <div><input className='inputBox1' type="text" placeholder="Add a todo here" onChange={(e)=>{
+                    input.current=e.target.value;
+                }}></input></div>
+
+                <AddTodoButton/>
+            </div>
+        </div>
     </>
+
+    // return <>
+       
+        // <div><input type="text" placeholder="Add a todo here" onChange={(e)=>{
+
+        //     input.current=e.target.value;
+        // }}></input></div>
+        // <AddTodoButton/>
+    //     <LogoutButton/>
+    //     <div><Todos/></div>
+    // </>
 
     function LogoutButton(){
         return <>
-            <button onClick={()=>{
-                localStorage.setItem('token',"")
-                navigate("/auth")
-            }}>Logout</button>
-
+            <div className='logout-container'>
+                
+                <button className='button1' onClick={()=>{
+                    localStorage.setItem('token',"")
+                    navigate("/auth")
+                }}>Logout</button>
+            </div>
         </>
     }
 
     function AddTodoButton(){
         return <>
-            <button onClick={addTodoHandler}>Add a todo</button>
+            <button className='button1' onClick={addTodoHandler}>Add a todo</button>
         </>
 
         async function addTodoHandler(){
@@ -83,14 +103,14 @@ export function TodoPage(){
 
         function TodoComponnent({title,_id}){
             return <>
-                <div>
+                <div className='todo-container'>
                     <span>{title}</span>
                     <span><DeleteButton id={_id} /></span>
                 </div>
             </>
 
             function DeleteButton({id}){
-                return <button onClick={deleteHandler}>Delete</button>
+                return <button className='button1' onClick={deleteHandler}>Delete</button>
             
                 async function deleteHandler(){
                 await axios.post('http://localhost:3000/todo/delete',{
