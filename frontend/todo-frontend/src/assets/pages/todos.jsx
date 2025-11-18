@@ -11,7 +11,7 @@ export function TodoPage(){
 
     useEffect(function(){
         async function test() {
-             const response=await axios.get("http://localhost:3000/todo/all",{
+             const response=await axios.get("https://full-stack-todo-app-mdfk.onrender.com/todo/all",{
              headers:{
                     token:localStorage.getItem("token")
                 }
@@ -68,7 +68,7 @@ export function TodoPage(){
 
         async function addTodoHandler(){
             try{
-                await axios.post("http://localhost:3000/todo/add",{
+                await axios.post("https://full-stack-todo-app-mdfk.onrender.com/todo/add",{
                     title:input.current,
                     description:"default",
                 },{
@@ -80,7 +80,7 @@ export function TodoPage(){
 
                 //
 
-                const response=await axios.get("http://localhost:3000/todo/all",{
+                const response=await axios.get("https://full-stack-todo-app-mdfk.onrender.com/todo/all",{
                 headers:{
                  token:localStorage.getItem("token")
                 }
@@ -113,7 +113,7 @@ export function TodoPage(){
                 return <button className='button1' onClick={deleteHandler}>Delete</button>
             
                 async function deleteHandler(){
-                await axios.post('http://localhost:3000/todo/delete',{
+                await axios.post('https://full-stack-todo-app-mdfk.onrender.com/todo/delete',{
                     idToDelete:id
                 },{
                     headers:{
@@ -121,7 +121,7 @@ export function TodoPage(){
                     }
                 })
 
-                const response=await axios.get("http://localhost:3000/todo/all",{
+                const response=await axios.get("https://full-stack-todo-app-mdfk.onrender.com/todo/all",{
              headers:{
                     token:localStorage.getItem("token")
                 }

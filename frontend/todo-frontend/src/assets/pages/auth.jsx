@@ -38,7 +38,7 @@ export function Auth(){
         </>
 
         async function signUpHandler(){
-            const res=await axios.post("http://localhost:3000/auth/signup",{
+            const res=await axios.post("https://full-stack-todo-app-mdfk.onrender.com/auth/signup",{
                 username:username.current,
                 password:password.current
             })
@@ -55,7 +55,7 @@ export function Auth(){
 
         async function signinhandler(req,res){
 
-            res=await axios.post("http://localhost:3000/auth/signin",{
+            res=await axios.post("https://full-stack-todo-app-mdfk.onrender.com/auth/signin",{
                 username:username.current,
                 password:password.current
             })
